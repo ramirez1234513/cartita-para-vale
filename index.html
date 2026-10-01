@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi niña bonita, Vale</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for flower/sparkle particle explosion -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+        }
+        .signature-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        @keyframes floatCloud {
+            0% { transform: translateX(-150px); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+        @keyframes sunPulse {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.06); opacity: 1; filter: drop-shadow(0 0 30px rgba(255, 223, 0, 0.9)); }
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+        }
+        @keyframes floatRose {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(4deg); }
+        }
+        @keyframes envelopeBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .cloud-1 { animation: floatCloud 38s linear infinite; }
+        .cloud-2 { animation: floatCloud 48s linear infinite; animation-delay: -18s; }
+        .sun-glow { animation: sunPulse 6s ease-in-out infinite; }
+        .heart-beat { animation: heartbeat 2s infinite; }
+        .rose-float { animation: floatRose 4s ease-in-out infinite; }
+        .envelope-hover { animation: envelopeBounce 2.5s ease-in-out infinite; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 182, 193, 0.5);
+            box-shadow: 0 25px 50px rgba(236, 72, 153, 0.2);
+        }
+        
+        .envelope-shadow {
+            box-shadow: 0 20px 35px rgba(219, 39, 119, 0.25);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen bg-gradient-to-b from-sky-300 via-sky-200 to-pink-100 flex flex-col items-center justify-center p-4 sm:p-6 overflow-x-hidden">
+
+    <!-- Sky Background Decor -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Radiant Sun -->
+        <div class="absolute top-8 right-8 sm:top-12 sm:right-16 w-24 h-24 sm:w-36 sm:h-36 bg-gradient-to-r from-yellow-300 to-amber-400 rounded-full sun-glow shadow-2xl flex items-center justify-center">
+            <div class="absolute inset-0 rounded-full bg-yellow-200 opacity-50 blur-md"></div>
+        </div>
+
+        <!-- Floating Cloud with Text -->
+        <div class="absolute top-16 left-[-200px] cloud-1 opacity-95 z-10 flex items-center bg-white/95 backdrop-blur-sm px-6 py-3.5 rounded-full shadow-lg border border-pink-100">
+            <i class="fas fa-cloud text-sky-100 text-3xl mr-3 absolute -top-3 left-2 -z-10"></i>
+            <span class="text-pink-600 font-bold text-xs sm:text-sm tracking-wide whitespace-nowrap">
+                <i class="fas fa-sparkles text-amber-400 mr-1"></i> Vale la niña mas inteligente y la mejor lic en psicología <i class="fas fa-heart text-pink-500 ml-1"></i>
+            </span>
+        </div>
+
+        <!-- Second Floating Cloud -->
+        <div class="absolute top-48 left-[-200px] cloud-2 opacity-85 z-10 bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full shadow-md">
+            <span class="text-sky-600 font-semibold text-xs sm:text-sm">Mis ojitos bonitos ✨</span>
+        </div>
+    </div>
+
+    <!-- Decorative Roses / Floral Elements around the screen -->
+    <div class="absolute top-4 left-4 sm:top-8 sm:left-8 z-20 rose-float text-rose-500 text-3xl sm:text-4xl drop-shadow-md pointer-events-none">
+        🌹
+    </div>
+    <div class="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 z-20 rose-float text-rose-500 text-3xl sm:text-4xl drop-shadow-md pointer-events-none" style="animation-delay: 2s;">
+        🌹
+    </div>
+    <div class="absolute top-1/2 left-2 sm:left-6 z-20 rose-float hidden sm:block text-pink-500 text-2xl pointer-events-none" style="animation-delay: 1s;">
+        🌷
+    </div>
+    <div class="absolute top-1/3 right-2 sm:right-6 z-20 rose-float hidden sm:block text-pink-500 text-2xl pointer-events-none" style="animation-delay: 3s;">
+        🌷
+    </div>
+
+    <!-- INITIAL SCREEN: Closed Envelope / Cover -->
+    <div id="envelopeScreen" class="relative z-30 w-full max-w-md mx-auto text-center transition-all duration-700 ease-in-out px-4">
+        <div class="glass-card rounded-3xl p-8 sm:p-10 envelope-shadow envelope-hover flex flex-col items-center border border-pink-200">
+            <!-- Envelope Graphic icon / Seal -->
+            <div class="w-24 h-24 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center text-white shadow-lg mb-6 relative heart-beat">
+                <i class="fas fa-envelope-open-text text-4xl"></i>
+                <div class="absolute -top-1 -right-1 text-2xl">🌹</div>
+            </div>
+
+            <h2 class="signature-font text-3xl sm:text-4xl font-bold text-pink-600 mb-3">Para: Mi Niña Bonita</h2>
+            <p class="text-gray-600 text-sm sm:text-base font-medium mb-8">
+                Tienes un mensajito especial esperando por ti. Haz clic abajo para abrirlo.
+            </p>
+
+            <!-- Opening Button with Exact Requested Text -->
+            <button onclick="openLetter()" class="w-full py-4 px-6 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-bold text-base sm:text-lg rounded-2xl shadow-xl hover:shadow-pink-400/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-3 group">
+                <i class="fas fa-heart text-pink-200 group-hover:scale-125 transition-transform"></i>
+                Abre esta carta mis ojitos bonitos
+                <i class="fas fa-sparkles text-amber-300"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- FINAL SCREEN: The Letter Content (Hidden by default) -->
+    <div id="letterScreen" class="relative z-30 w-full max-w-xl mx-auto hidden opacity-0 transition-all duration-1000 ease-in-out px-4 my-8">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 transition-all duration-300">
+            <!-- Card Header -->
+            <div class="text-center mb-6">
+                <div class="inline-block p-3 bg-pink-100 rounded-full text-pink-500 mb-2 heart-beat shadow-inner">
+                    <i class="fas fa-heart text-2xl sm:text-3xl"></i>
+                </div>
+                <h1 class="signature-font text-4xl sm:text-5xl font-bold text-pink-600">Para mi niña bonita</h1>
+                <div class="w-20 h-1 bg-gradient-to-r from-pink-400 to-rose-400 mx-auto mt-2 rounded-full"></div>
+            </div>
+
+            <!-- Exact Requested Letter Text -->
+            <div class="space-y-4 text-gray-700 text-sm sm:text-base leading-relaxed font-medium text-justify">
+                <p class="first-letter:text-3xl first-letter:font-bold first-letter:text-pink-500 first-letter:mr-1">
+                    Hola Vale, sé que hoy no fue un gran día y estás enojada, no te quise preguntar y insistir en que me dijeras, pero quiero decirte que te quiero y que aquí estoy para ti, que me puedes contar con toda la confianza.
+                </p>
+                <p>
+                    No solo me gustas físicamente, sino me gustas también y me quiero enamorar. Si me tienes más confianza, tal vez no te daré un gran consejo, pero sí estoy para apoyarte y para lo que necesites.
+                </p>
+                <p>
+                    Te quiero, mis ojitos bonitos, tú estás siendo parte de mi felicidad, bb. Te quiero y te mando muchos besos, mi niña. 💖
+                </p>
+            </div>
+
+            <!-- Card Footer / Interactive button -->
+            <div class="mt-8 text-center pt-4 border-t border-pink-100 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button onclick="showLoveModal()" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold rounded-full shadow-lg hover:shadow-pink-300/50 hover:scale-105 transition duration-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-kiss-wink-heart"></i> Recibir besito y abrazo virtual
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Interactive Love Note (No alert() used) -->
+    <div id="loveModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl text-center transform scale-95 transition-transform duration-300" id="modalContent">
+            <div class="text-4xl mb-3">🥰✨</div>
+            <h3 class="text-xl font-bold text-pink-600 mb-2">¡Eres muy especial!</h3>
+            <p class="text-gray-600 text-sm mb-4">Espero que este detallito dibuje una sonrisa en tus ojitos bonitos. ¡Mucho ánimo hoy, mi psicóloga favorita!</p>
+            <button onclick="closeLoveModal()" class="px-5 py-2 bg-pink-500 text-white font-medium rounded-full hover:bg-pink-600 transition shadow-md">
+                Gracias, te quiero ❤️
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer Credit -->
+    <footer class="relative z-20 text-xs text-pink-700/80 font-medium pb-2 text-center mt-4">
+        Hecho con todo el cariño del mundo para Vale 🌸
+    </footer>
+
+    <script>
+        // Function to trigger the magic flower/sparkle animation and open the letter
+        function openLetter() {
+            // Trigger multi-stage canvas confetti simulating floating flowers, petals & sparkles
+            const duration = 2.5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Sparkles and colorful petals/flowers effect using shapes and colors
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#ec4899', '#f43f5e', '#fb7185', '#ffd700', '#ff69b4', '#ffffff'],
+                    shapes: ['circle', 'square'],
+                    scalar: randomInRange(0.8, 1.4)
+                }));
+            }, 250);
+
+            // Smooth transition between screens
+            const envelopeScreen = document.getElementById('envelopeScreen');
+            const letterScreen = document.getElementById('letterScreen');
+
+            envelopeScreen.style.opacity = '0';
+            envelopeScreen.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                envelopeScreen.classList.add('hidden');
+                letterScreen.classList.remove('hidden');
+                setTimeout(() => {
+                    letterScreen.style.opacity = '1';
+                }, 50);
+            }, 500);
+        }
+
+        // Modal control functions (Strictly avoiding alert())
+        function showLoveModal() {
+            const modal = document.getElementById('loveModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeLoveModal() {
+            const modal = document.getElementById('loveModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
+```
